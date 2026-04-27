@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logowanie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="page-background">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    <div class="login-shell">
+        <div class="login-card">
+            <section class="card-panel card-panel-left">
+                <div class="card-head">
+                    <span class="eyebrow">Portfolio</span>
+                    <h2>Zaloguj się szybko</h2>
+                    <p>Wybierz logowanie przez Apple, Facebook lub Google i zacznij budować swoje projekty.</p>
+                </div>
+                <div class="social-grid">
+                    <button class="social-btn apple"><i class="fab fa-apple"></i> Apple</button>
+                    <button class="social-btn facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+                    <button class="social-btn google"><i class="fab fa-google"></i> Google</button>
+                </div>
+            </section>
+            <section class="card-panel card-panel-right">
+                <div class="card-head">
+                    <span class="eyebrow">Konto</span>
+                    <h2>Logowanie</h2>
+                    <p>Użyj nazwy użytkownika i hasła, aby uzyskać dostęp do panelu portfolio.</p>
+                </div>
+                <form class="login-form" action="#" method="post">
+                    <label for="username">Nazwa użytkownika</label>
+                    <input id="username" type="text" placeholder="jan.kowalski" required>
+                    <label for="password">Hasło</label>
+                    <input id="password" type="password" placeholder="Twoje hasło" required>
+                    <button type="submit" class="submit-btn">Zaloguj</button>
+                    <p class="form-note">Nie masz konta? <a href="register.html">Zarejestruj się</a></p>
+                </form>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>Masz pytania? <a href="mailto:kontakt@giziuuu.dev">Skontaktuj się</a> • 2026 Stworzone przez <a target="_blank" href="https://github.com/Giziuuu420">GiziuuuDeV</a></p>
+        </footer>
+    </div>
+</body>
+</html>

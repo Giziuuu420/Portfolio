@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+    <div class="page-background">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    <div class="login-shell">
+        <div class="login-card">
+            <section class="card-panel card-panel-left">
+                <div class="card-head">
+                    <span class="eyebrow">Portfolio</span>
+                    <h1>Dołącz do nas</h1>
+                    <p>Stwórz konto i zacznij prezentować swoje projekty w nowoczesnym portfolio.</p>
+                </div>
+                <div class="social-grid">
+                    <button class="social-btn apple"><i class="fab fa-apple"></i> Apple</button>
+                    <button class="social-btn facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+                    <button class="social-btn google"><i class="fab fa-google"></i> Google</button>
+                </div>
+            </section>
+            <section class="card-panel card-panel-right">
+                <div class="card-head">
+                    <span class="eyebrow">Konto</span>
+                    <h1>Rejestracja</h1>
+                    <p>Utwórz konto, aby zarządzać swoim portfolio i zdobywać nowe możliwości.</p>
+                </div>
+                <form id="registerForm" class="login-form" action="#" method="post">
+                    <label for="username">Nazwa użytkownika</label>
+                    <input id="username" type="text" placeholder="jan.kowalski" required>
+                    <label for="email">Email</label>
+                    <input id="email" type="email" placeholder="jan@domena.com" required>
+                    <label for="password">Hasło</label>
+                    <input id="password" type="password" placeholder="Twoje hasło" required>
+                    <div class="strength-meter">
+                        <span class="strength-segment"></span>
+                        <span class="strength-segment"></span>
+                        <span class="strength-segment"></span>
+                    </div>
+                    <div class="strength-label">Podaj hasło, aby sprawdzić jego siłę.</div>
+                    <div class="password-requirements">
+                        <div id="reqUpper" class="requirement-item">Duża litera</div>
+                        <div id="reqLower" class="requirement-item">Mała litera</div>
+                        <div id="reqNumber" class="requirement-item">Cyfra</div>
+                        <div id="reqSpecial" class="requirement-item">Znak specjalny</div>
+                        <div id="reqLength" class="requirement-item">Min. 10 znaków</div>
+                    </div>
+                    <label for="repeatPassword">Powtórz hasło</label>
+                    <input id="repeatPassword" type="password" placeholder="Powtórz hasło" required>
+                    <p id="passwordNote" class="password-note">Hasło musi zawierać dużą literę, małą literę, cyfrę i znak specjalny, a powtórzone hasło musi się zgadzać.</p>
+                    <button type="submit" class="submit-btn" id="registerButton" disabled>Zarejestruj</button>
+                    <p class="form-note">Masz już konto? <a href="login.html">Zaloguj się</a></p>
+                </form>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>Masz pytania? <a href="mailto:kontakt@giziuuu.dev">Skontaktuj się</a> • 2026 Stworzone przez <a target="_blank" href="https://github.com/Giziuuu420">GiziuuuDeV</a></p>
+        </footer>
+    </div>
+    <script>
+        const passwordInput = document.getElementById('password');
+        const repeatInput = document.getElementById('repeatPassword');
+        const strengthSegments = document.querySelectorAll('.strength-segment');
+        const strengthLabel = document.querySelector('.strength-label');
+        const passwordNote = document.getElementById('passwordNote');
+        const registerButton = document.getElementById('registerButton');
+        const form = document.getElementById('registerForm');
+        const reqUpper = document.getElementById('reqUpper');
+        const reqLower = document.getElementById('reqLower');
+        const reqNumber = document.getElementById('reqNumber');
+        const reqSpecial = document.getElementById('reqSpecial');
+        const reqLength = document.getElementById('reqLength');
+        const requirementBox = document.querySelector('.password-requirements');
+
+        const evaluatePassword = (value) => {
+            const upper = /[A-Z]/.test(value);
+            const lower = /[a-z]/.test(value);
+            const number = /\d/.test(value);
+            const special = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+            const lengthGood = value.length >= 10;
+            const categories = [upper, lower, number, special].filter(Boolean).length;
+
+            if (categories === 4 && lengthGood) return 'strong';
+            if (categories >= 3 && value.length >= 7) return 'medium';
+            if (value.length > 0) return 'weak';
+            return 'empty';
+        };
+
+        const updateRequirements = ({ upper, lower, number, special, lengthGood }) => {
+            reqUpper.classList.toggle('ok', upper);
+            reqLower.classList.toggle('ok', lower);
+            reqNumber.classList.toggle('ok', number);
+            reqSpecial.classList.toggle('ok', special);
+            reqLength.classList.toggle('ok', lengthGood);
+        };
+
+        const updateStrength = () => {
+            const value = passwordInput.value;
+            const upper = /[A-Z]/.test(value);
+            const lower = /[a-z]/.test(value);
+            const number = /\d/.test(value);
+            const special = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+            const lengthGood = value.length >= 10;
+            const strength = evaluatePassword(value);
+
+            updateRequirements({ upper, lower, number, special, lengthGood });
+            requirementBox.classList.toggle('hidden', upper && lower && number && special && lengthGood);
+
+            strengthSegments.forEach((segment, index) => {
+                segment.classList.remove('weak', 'medium', 'strong');
+                if (strength === 'weak' && index === 0) {
+                    segment.classList.add('weak');
+                }
+                if (strength === 'medium' && index < 2) {
+                    segment.classList.add('medium');
+                }
+                if (strength === 'strong') {
+                    segment.classList.add('strong');
+                }
+            });
+
+            if (strength === 'strong') {
+                strengthLabel.textContent = 'Silne hasło';
+            } else if (strength === 'medium') {
+                strengthLabel.textContent = 'Średnie hasło';
+            } else if (strength === 'weak') {
+                strengthLabel.textContent = 'Słabe hasło';
+            } else {
+                strengthLabel.textContent = 'Podaj hasło, aby sprawdzić jego siłę.';
+            }
+
+            const passwordsMatch = repeatInput.value.length === 0 || value === repeatInput.value;
+            const defaultPasswordNote = 'Hasło musi zawierać dużą literę, małą literę, cyfrę i znak specjalny, a powtórzone hasło musi się zgadzać.';
+            const matchPasswordNote = 'Oba hasła muszą się zgadzać.';
+
+            if (!passwordsMatch && repeatInput.value.length > 0) {
+                passwordNote.textContent = 'Hasła się nie zgadzają.';
+                passwordNote.classList.remove('hidden');
+            } else if (strength === 'strong' && repeatInput.value.length > 0 && passwordsMatch) {
+                passwordNote.classList.add('hidden');
+            } else if (strength === 'strong') {
+                passwordNote.textContent = matchPasswordNote;
+                passwordNote.classList.remove('hidden');
+            } else {
+                passwordNote.textContent = defaultPasswordNote;
+                passwordNote.classList.remove('hidden');
+            }
+
+            registerButton.disabled = strength !== 'strong' || value.length === 0 || repeatInput.value.length === 0 || value !== repeatInput.value;
+        };
+
+        passwordInput.addEventListener('input', updateStrength);
+        repeatInput.addEventListener('input', updateStrength);
+
+        form.addEventListener('submit', (event) => {
+            if (registerButton.disabled) {
+                event.preventDefault();
+            }
+        });
+
+        updateStrength();
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Napisz do mnie | GiziuuuDeV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="portfolio.css">
+</head>
+<body>
+    <div class="page-wrap">
+        <div class="bg-glow glow-1"></div>
+        <div class="bg-glow glow-2"></div>
+        <div class="bg-glow glow-3"></div>
+
+        <header class="topbar">
+            <span class="brand"><span>Gizi</span>uuDeV</span>
+            <nav class="nav-links">
+                <a href="portfolio.html">Portfolio</a>
+                <a href="login.html">Login</a>
+                <a href="register.html">Rejestracja</a>
+            </nav>
+            <div class="topbar-actions">
+                <a class="btn-secondary" href="portfolio.html">Powrót</a>
+            </div>
+        </header>
+
+        <main class="contact-shell">
+            <section class="contact-intro">
+                <span class="eyebrow">Kontakt</span>
+                <h1>Napisz wiadomość i rozpocznijmy projekt.</h1>
+                <p>Masz pomysł na mocne portfolio lub efektowny landing page? Wypełnij formularz poniżej — każdy znak jest liczony na żywo, do 1000.</p>
+            </section>
+
+            <article class="contact-card">
+                <form id="contactForm" action="#">
+                    <label for="name">Nazwa</label>
+                    <input id="name" name="name" type="text" placeholder="Twoje imię" required>
+
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" placeholder="jan@domena.com" required>
+
+                    <label for="message">Napisz wiadomość</label>
+                    <div class="textarea-field" id="textareaField">
+                        <textarea id="message" name="message" rows="8" placeholder="Opisz swój pomysł..." required></textarea>
+                        <span id="charCount" class="char-counter">0/1000</span>
+                    </div>
+
+                    <div class="message-meta">
+                        <button type="submit" class="btn-primary" id="sendButton">Wyślij wiadomość</button>
+                    </div>
+                </form>
+            </article>
+        </main>
+
+        <footer class="page-footer">
+            <p>2026 © GiziuuuDeV — kontakt w stylu premium.</p>
+        </footer>
+    </div>
+
+    <div id="errorModal" class="modal-overlay hidden" aria-hidden="true">
+        <div class="modal-card">
+            <p>Wiadomość za długa</p>
+            <button id="closeModal" class="btn-secondary">Zamknij</button>
+        </div>
+    </div>
+
+    <div id="successModal" class="modal-overlay hidden" aria-hidden="true">
+        <div class="modal-card">
+            <p>Wiadomość została pomyślnie wysłana!</p>
+            <button id="closeSuccess" class="btn-secondary">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const messageField = document.getElementById('message');
+        const charCount = document.getElementById('charCount');
+        const sendButton = document.getElementById('sendButton');
+        const form = document.getElementById('contactForm');
+        const maxChars = 1000;
+
+        const updateCount = () => {
+            const length = messageField.value.length;
+            charCount.textContent = `${length}/${maxChars}`;
+            charCount.classList.toggle('over', length > maxChars);
+            sendButton.disabled = length === 0 || length > maxChars;
+        };
+
+        const errorModal = document.getElementById('errorModal');
+        const closeModalButton = document.getElementById('closeModal');
+        const successModal = document.getElementById('successModal');
+        const closeSuccessButton = document.getElementById('closeSuccess');
+        const textareaField = document.getElementById('textareaField');
+
+        messageField.addEventListener('input', () => {
+            updateCount();
+            if (messageField.scrollHeight > messageField.clientHeight) {
+                messageField.scrollTop = messageField.scrollHeight;
+            }
+        });
+
+        form.addEventListener('submit', (event) => {
+            updateCount();
+            if (messageField.value.length > maxChars) {
+                event.preventDefault();
+                textareaField.classList.add('over-limit');
+                errorModal.classList.remove('hidden');
+                errorModal.setAttribute('aria-hidden', 'false');
+                return;
+            }
+            event.preventDefault();
+            successModal.classList.remove('hidden');
+            successModal.setAttribute('aria-hidden', 'false');
+            form.reset();
+            updateCount();
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            textareaField.classList.remove('over-limit');
+            errorModal.classList.add('hidden');
+            errorModal.setAttribute('aria-hidden', 'true');
+        });
+
+        closeSuccessButton.addEventListener('click', () => {
+            successModal.classList.add('hidden');
+            successModal.setAttribute('aria-hidden', 'true');
+        });
+
+        errorModal.addEventListener('click', (event) => {
+            if (event.target === errorModal) {
+                textareaField.classList.remove('over-limit');
+                errorModal.classList.add('hidden');
+                errorModal.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        updateCount();
+    </script>
+</body>
+</html>
